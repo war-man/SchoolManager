@@ -1,4 +1,6 @@
-﻿using System;
+﻿using SchoolManager.Infrastructure;
+using SchoolManager.Services.Download;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -10,6 +12,10 @@ namespace SchoolManager
     {
         static void Main(string[] args)
         {
+            Injector.SetupContainer();
+            var schoolDownloader = Injector.Container.GetInstance<ISchoolDownloader>();
+
+            var students = schoolDownloader.GetStudentsAsync().Result;
         }
     }
 }
