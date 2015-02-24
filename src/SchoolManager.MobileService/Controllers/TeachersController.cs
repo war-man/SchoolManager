@@ -4,30 +4,29 @@ using SchoolManager.MobileService.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Net;
-using System.Net.Http;
 using System.Threading.Tasks;
+using System.Web;
 using System.Web.Http;
 using System.Web.Http.Controllers;
-using System.Web.Http.OData;
 
 namespace SchoolManager.MobileService.Controllers
 {
-    public class StudentsController : TableController<Student>
+    
+    public class TeachersController : TableController<Teacher>
     {
         protected override void Initialize(HttpControllerContext controllerContext)
         {
             base.Initialize(controllerContext);
             MobileServiceContext context = new MobileServiceContext();
-            DomainManager = new EntityDomainManager<Student>(context, Request, Services);
+            DomainManager = new EntityDomainManager<Teacher>(context, Request, Services);
         }
 
-        public IQueryable<Student> GetAllStudents()
+        public IQueryable<Teacher> GetAllTeachers()
         {
             return Query();
         }
 
-        public SingleResult<Student> GetStudent(string id)
+        public SingleResult<Teacher> GetTeacher(string id)
         {
             return Lookup(id);
         }

@@ -7,8 +7,24 @@ using System.Configuration;
 
 namespace SchoolManager.Infrastructure
 {
-    class Configuration : SchoolManager.Infrastructure.IConfiguration
+    class Configuration : IConfiguration
     {
+        public string MobileServiceApiBaseAddress
+        {
+            get
+            {
+                return ConfigurationManager.AppSettings["MobileServiceApiBaseAddress"];
+            }
+        }
+
+        public string MobileServiceToken
+        {
+            get
+            {
+                return ConfigurationManager.AppSettings["MobileServiceToken"];
+            }
+        }
+
         public string StudentsDownloadUrl
         {
             get

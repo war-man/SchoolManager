@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Threading.Tasks;
 
-namespace SchoolManager.Services.Http
+namespace SchoolManager.Services.Download.Http
 {
     interface IHttpCommunicator
     {
@@ -17,5 +17,10 @@ namespace SchoolManager.Services.Http
         /// <returns>The task representing the response string</returns>
         /// <exception cref="HttpRequestException"></exception>
         Task<string> SendGetRequestAsync(string requestUri);
+
+        /// <summary>
+        /// Sends a post request asynchronously
+        /// </summary>
+        Task<string> SendPostRequestAsync<T>(string uri, T data);
     }
 }

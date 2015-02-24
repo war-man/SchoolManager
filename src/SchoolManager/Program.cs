@@ -1,4 +1,5 @@
-﻿using SchoolManager.Infrastructure;
+﻿using SchoolManager.Entities;
+using SchoolManager.Infrastructure;
 using SchoolManager.Services.Download;
 using System;
 using System.Collections.Generic;
@@ -15,7 +16,29 @@ namespace SchoolManager
             Injector.SetupContainer();
             var schoolDownloader = Injector.Container.GetInstance<ISchoolDownloader>();
 
-            var students = schoolDownloader.GetStudentsAsync().Result;
+            Task.Run(async () =>
+                {
+                    var students = await schoolDownloader.GetStudentsAsync();
+                    var teachers = await schoolDownloader.GetTeachersAsync();
+
+                    var teachersWithClasses = 
+                        teachers
+                        .Select(teacher => 
+                            new { 
+                                Person = teacher, 
+                                Classes = teacher.Classes.Split(',') 
+                            });
+
+                    var studentsWithClasses =
+                        students
+                        .Select(student =>
+                            new
+                            {
+                                Person = student,
+                                Classes = student.Classes.Split(',')
+                            });
+                    
+                });
         }
     }
 }

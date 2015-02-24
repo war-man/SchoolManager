@@ -64,8 +64,8 @@
     <Compile Include="Infrastructure\Injector.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Services\Http\HttpCommunicator.cs" />
-    <Compile Include="Services\Http\IHttpCommunicator.cs" />
+    <Compile Include="Services\Download\Http\HttpCommunicator.cs" />
+    <Compile Include="Services\Download\Http\IHttpCommunicator.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />

@@ -14,6 +14,6 @@ namespace SchoolManager.MobileService.DataObjects
 
         public decimal Salary { get; set; }
 
-        public IList<string> Classes { get; set; }
+        public string Classes { get; set; }
     }
 }

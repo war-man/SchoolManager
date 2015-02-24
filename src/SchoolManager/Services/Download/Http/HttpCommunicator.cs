@@ -5,25 +5,33 @@ using System.Linq;
 using System.Text;
 using System.Net.Http;
 using System.Threading.Tasks;
+using SchoolManager.Infrastructure;
+using Newtonsoft.Json;
 
-namespace SchoolManager.Services.Http
+namespace SchoolManager.Services.Download.Http
 {
     internal class HttpCommunicator : IHttpCommunicator
     {
         private readonly HttpClient _httpClient;
         private readonly HttpClientHandler _httpClientHandler;
+        private readonly IConfiguration _configuration;
 
         protected string BaseUrl { get; set; }
 
-        public HttpCommunicator()
+        public HttpCommunicator(IConfiguration configuration)
         {
             if (_httpClient == null)
             {
+                _configuration = configuration;
+
                 _httpClientHandler = new HttpClientHandler();
                 _httpClient = new HttpClient(_httpClientHandler)
                 {
-                    Timeout = new TimeSpan(0, 0, 45, 0),
+                    Timeout = new TimeSpan(0, 0, 5, 0),
                 };
+
+                _httpClient.BaseAddress = new Uri(_configuration.MobileServiceApiBaseAddress, UriKind.Absolute);
+                _httpClient.DefaultRequestHeaders.TryAddWithoutValidation("X-ZUMO-APPLICATION", _configuration.MobileServiceToken);
             }
         }
 
@@ -60,6 +68,15 @@ namespace SchoolManager.Services.Http
                     await contentStream.CopyToAsync(stream);
                 }
             }
+        }
+
+        public async Task<string> SendPostRequestAsync<T>(string uri, T data)
+        {
+            string json = JsonConvert.SerializeObject(data);
+            HttpResponseMessage response = await _httpClient.PostAsync(uri, new StringContent(json, Encoding.UTF8, "application/json"));
+            response.EnsureSuccessStatusCode();
+
+            return await response.Content.ReadAsStringAsync();
         }
     }
 }

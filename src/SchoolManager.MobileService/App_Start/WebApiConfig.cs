@@ -19,6 +19,8 @@ namespace SchoolManager.MobileService
             // Use this class to set WebAPI configuration options
             HttpConfiguration config = ServiceConfig.Initialize(new ConfigBuilder(options));
 
+            config.EnableCors();
+
             // To display errors in the browser during development, uncomment the following
             // line. Comment it out again when you deploy your service for production use.
             // config.IncludeErrorDetailPolicy = IncludeErrorDetailPolicy.Always;
@@ -33,15 +35,17 @@ namespace SchoolManager.MobileService
         {
             List<Student> students = new List<Student>
             {
-                new Student { Id = Guid.NewGuid().ToString(), Fullname = "Pablo Iglesias", BirthDay = DateTime.Now.AddYears(-40) },
-                new Student { Id = Guid.NewGuid().ToString(), Fullname = "Francisco Jose", BirthDay = DateTime.Now.AddYears(-50) },
+                new Student { Id = Guid.NewGuid().ToString(), Fullname = "Pablo", BirthDay = DateTime.Now.AddYears(-40), Classes = "C#,JS,Scala,Git,jQuery,Windows Apps" },
+                new Student { Id = Guid.NewGuid().ToString(), Fullname = "Francisco Jose", BirthDay = DateTime.Now.AddYears(-50), Classes = "C#,JS,Scala,Ruby,Windows Phone,F#" },
+                new Student { Id = Guid.NewGuid().ToString(), Fullname = "Alex", BirthDay = DateTime.Now.AddYears(-20), Classes = "C#,Git,Windows Phone" },
+                new Student { Id = Guid.NewGuid().ToString(), Fullname = "Jose", BirthDay = DateTime.Now.AddYears(-35), Classes = "JS,jQuery,Windows Apps" }
             };
 
             IList<Teacher> teachers = new List<Teacher>
             {
-                new Teacher { Id = Guid.NewGuid().ToString(), Fullname = "Professor X"},
-                new Teacher { Id = Guid.NewGuid().ToString(), Fullname = "Quique Fernandez"},
-                new Teacher { Id = Guid.NewGuid().ToString(), Fullname = "Daniel Rozo" }
+                new Teacher { Id = Guid.NewGuid().ToString(), Fullname = "Professor X", Classes= "Scala,Ruby,F#" },
+                new Teacher { Id = Guid.NewGuid().ToString(), Fullname = "Quique Fernandez", Classes = "JS,jQuery,Windows Apps"},
+                new Teacher { Id = Guid.NewGuid().ToString(), Fullname = "Daniel Rozo", Classes = "C#,Git,Windows Phone" }
             };
 
             foreach (Student student in students)

@@ -1,7 +1,8 @@
 ﻿using Newtonsoft.Json;
 using SchoolManager.Entities;
 using SchoolManager.Infrastructure;
-using SchoolManager.Services.Http;
+using SchoolManager.Services.Download.Http;
+using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 

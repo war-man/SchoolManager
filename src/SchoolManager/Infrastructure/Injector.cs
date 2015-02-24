@@ -1,5 +1,5 @@
 ﻿using SchoolManager.Services.Download;
-using SchoolManager.Services.Http;
+using SchoolManager.Services.Download.Http;
 using SimpleInjector;
 using System;
 using System.Collections.Generic;
