@@ -37,8 +37,16 @@ namespace SchoolManager
                                 Person = student,
                                 Classes = student.Classes.Split(',')
                             });
-                    
-                });
+
+                    var a = teachersWithClasses
+                        .Select(teacherWithClasses => 
+                            new { 
+                                Teacher = teacherWithClasses.Person, 
+                                Students = studentsWithClasses
+                                    .Where(studentWithClasses => studentWithClasses.Classes.Any(teacherWithClasses.Classes.Contains)).ToList() 
+                            }).ToList();
+                    Console.Write(a);
+                }).Wait();
         }
     }
 }
