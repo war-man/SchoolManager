@@ -33,8 +33,6 @@ namespace SchoolManager
 
                     var dt = dataTableBuilder.BuildDataTable(teachersWithStudents);
 
-                    excelPackageCreator.CreateAndSaveExcelPackage(dt);
-
                 }).Wait();
         }
     }
