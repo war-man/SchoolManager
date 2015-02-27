@@ -19,42 +19,25 @@ namespace SchoolManager
 
             Task.Run(async () =>
                 {
+
                     var students = await schoolDownloader.GetStudentsAsync();
                     var teachers = await schoolDownloader.GetTeachersAsync();
 
-                    var teachersWithClasses =
-                        teachers
-                        .Select(teacher =>
-                            new
-                            {
-                                Person = teacher,
-                                Classes = teacher.Classes.Split(',')
-                            });
-
-                    var studentsWithClasses =
-                        students
-                        .Select(student =>
-                            new
-                            {
-                                Person = student,
-                                Classes = student.Classes.Split(',')
-                            });
-
-                    var teachersWithStudents = teachersWithClasses
+                    var teachersWithStudents = teachers
                         .Select(teacherWithClasses =>
                             new
-                            {
-                                Teacher = teacherWithClasses.Person,
-                                Students = studentsWithClasses
-                                    .Where(studentWithClasses => studentWithClasses.Classes.Any(teacherWithClasses.Classes.Contains))
-                                    .Select(g => g.Person).ToList()
-                            }).ToList();
+                             {
+                                 Teacher = teacherWithClasses,
+                                 Students = students
+                                     .Where(studentWithClasses => studentWithClasses.Classes.Any(teacherWithClasses.Classes.Contains))
+                                     .ToList()
+                             }).ToList();
 
-                    List<Tuple<Teacher, IList<Student>>> groups = 
-                        teachersWithStudents.Select(h => new Tuple<Teacher, IList<Student>> (h.Teacher, h.Students)).ToList();
+                    List<Tuple<Teacher, IList<Student>>> groups =
+                        teachersWithStudents.Select(h => new Tuple<Teacher, IList<Student>>(h.Teacher, h.Students)).ToList();
 
                     var dt = dataTableBuilder.BuildDataTable(groups);
-                   
+
                 }).Wait();
         }
     }

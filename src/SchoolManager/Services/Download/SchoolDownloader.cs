@@ -5,6 +5,7 @@ using SchoolManager.Services.Download.Http;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using System.Linq;
 
 namespace SchoolManager.Services.Download
 {
@@ -23,18 +24,30 @@ namespace SchoolManager.Services.Download
         {
             string jsonResponse = await _httpCommunicator.SendGetRequestAsync(_configuration.StudentsDownloadUrl);
 
-            IList<Student> students = JsonConvert.DeserializeObject<IList<Student>>(jsonResponse);
+            IList<Person> students = JsonConvert.DeserializeObject<IList<Person>>(jsonResponse, new JsonConverter[] { new PersonJsonConverter() });
 
-            return students;
+            return students.Select(p => new Student
+            {
+                Id = p.Id,
+                BirthDay = p.BirthDay,
+                Classes = p.Classes,
+                Fullname = p.Fullname
+            }).ToList();
         }
 
         public async Task<IList<Teacher>> GetTeachersAsync()
         {
             string jsonResponse = await _httpCommunicator.SendGetRequestAsync(_configuration.TeachersDownloadUrl);
 
-            IList<Teacher> teachers = JsonConvert.DeserializeObject<IList<Teacher>>(jsonResponse);
+            IList<Person> teachers = JsonConvert.DeserializeObject<IList<Person>>(jsonResponse, new JsonConverter[] { new PersonJsonConverter() });
 
-            return teachers;
+            return teachers.Select(p => new Teacher
+            {
+                Id = p.Id,
+                BirthDay = p.BirthDay,
+                Classes = p.Classes,
+                Fullname = p.Fullname
+            }).ToList();
         }
     }
 }

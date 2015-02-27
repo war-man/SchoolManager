@@ -59,6 +59,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Infrastructure\PersonJsonConverter.cs" />
     <Compile Include="Services\Data\DataTableBuilder.cs" />
     <Compile Include="Services\Data\IDataTableBuilder.cs" />
     <Compile Include="Services\Download\ISchoolDownloader.cs" />

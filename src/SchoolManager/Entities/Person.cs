@@ -14,6 +14,6 @@ namespace SchoolManager.Entities
 
         public DateTime? BirthDay { get; set; }
 
-        public string Classes { get; set; }
+        public string[] Classes { get; set; }
     }
 }
