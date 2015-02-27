@@ -19,24 +19,18 @@ namespace SchoolManager
 
             Task.Run(async () =>
                 {
-
                     var students = await schoolDownloader.GetStudentsAsync();
                     var teachers = await schoolDownloader.GetTeachersAsync();
 
-                    var teachersWithStudents = teachers
+                    IList<Tuple<Teacher, IList<Student>>> teachersWithStudents =
+                        teachers
                         .Select(teacherWithClasses =>
-                            new
-                             {
-                                 Teacher = teacherWithClasses,
-                                 Students = students
+                            new Tuple<Teacher, IList<Student>>(teacherWithClasses, students
                                      .Where(studentWithClasses => studentWithClasses.Classes.Any(teacherWithClasses.Classes.Contains))
-                                     .ToList()
-                             }).ToList();
+                                     .ToList())
+                           ).ToList();
 
-                    List<Tuple<Teacher, IList<Student>>> groups =
-                        teachersWithStudents.Select(h => new Tuple<Teacher, IList<Student>>(h.Teacher, h.Students)).ToList();
-
-                    var dt = dataTableBuilder.BuildDataTable(groups);
+                    var dt = dataTableBuilder.BuildDataTable(teachersWithStudents);
 
                 }).Wait();
         }
