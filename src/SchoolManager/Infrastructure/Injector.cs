@@ -1,4 +1,5 @@
-﻿using SchoolManager.Services.Download;
+﻿using SchoolManager.Services.Data;
+using SchoolManager.Services.Download;
 using SchoolManager.Services.Download.Http;
 using SimpleInjector;
 using System;
@@ -20,6 +21,7 @@ namespace SchoolManager.Infrastructure
             container.Register<IHttpCommunicator, HttpCommunicator>();
             container.Register<IConfiguration, Configuration>();
             container.Register<ISchoolDownloader, SchoolDownloader>();
+            container.Register<IDataTableBuilder, DataTableBuilder>();
 
             Container = container;
         }

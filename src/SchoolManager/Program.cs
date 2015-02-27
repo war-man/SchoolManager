@@ -4,10 +4,8 @@ using SchoolManager.Services.Download;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
-using EPPlusEnumerable;
-using System.Data;
+using SchoolManager.Services.Data;
 
 namespace SchoolManager
 {
@@ -17,6 +15,7 @@ namespace SchoolManager
         {
             Injector.SetupContainer();
             var schoolDownloader = Injector.Container.GetInstance<ISchoolDownloader>();
+            var dataTableBuilder = Injector.Container.GetInstance<IDataTableBuilder>();
 
             Task.Run(async () =>
                 {
@@ -41,34 +40,22 @@ namespace SchoolManager
                                 Classes = student.Classes.Split(',')
                             });
 
-                    var a = teachersWithClasses
+                    var teachersWithStudents = teachersWithClasses
                         .Select(teacherWithClasses =>
                             new
                             {
                                 Teacher = teacherWithClasses.Person,
                                 Students = studentsWithClasses
-                                    .Where(studentWithClasses => studentWithClasses.Classes.Any(teacherWithClasses.Classes.Contains)).ToList()
+                                    .Where(studentWithClasses => studentWithClasses.Classes.Any(teacherWithClasses.Classes.Contains))
+                                    .Select(g => g.Person).ToList()
                             }).ToList();
 
-                    var dt = new DataTable();
+                    List<Tuple<Teacher, IList<Student>>> groups = 
+                        teachersWithStudents.Select(h => new Tuple<Teacher, IList<Student>> (h.Teacher, h.Students)).ToList();
 
-                    for (int ii = 0; ii < a.Count; ii++)
-                    {
-                        var teacherWithStudents = a[ii];
-                        dt.Columns.Add(teacherWithStudents.Teacher.Fullname);
-                        for (int jj = 0; jj < teacherWithStudents.Students.Count; jj++)
-                        {
-                            dt.Rows.Add();
-                            dt.Rows[jj][ii] = teacherWithStudents.Students[jj].Person.Fullname;
-                        }
-                    }
-
-                    Console.Write(dt);
-
+                    var dt = dataTableBuilder.BuildDataTable(groups);
+                   
                 }).Wait();
-
-
-
         }
     }
 }

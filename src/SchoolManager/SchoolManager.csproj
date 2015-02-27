@@ -59,9 +59,10 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Services\Data\DataTableBuilder.cs" />
+    <Compile Include="Services\Data\IDataTableBuilder.cs" />
     <Compile Include="Services\Download\ISchoolDownloader.cs" />
     <Compile Include="Services\Download\SchoolDownloader.cs" />
-    <Compile Include="Entities\Administrative.cs" />
     <Compile Include="Entities\Person.cs" />
     <Compile Include="Entities\Student.cs" />
     <Compile Include="Entities\Teacher.cs" />
