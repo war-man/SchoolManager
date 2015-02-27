@@ -6,6 +6,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using EPPlusEnumerable;
+using System.Data;
 
 namespace SchoolManager
 {
@@ -21,12 +23,13 @@ namespace SchoolManager
                     var students = await schoolDownloader.GetStudentsAsync();
                     var teachers = await schoolDownloader.GetTeachersAsync();
 
-                    var teachersWithClasses = 
+                    var teachersWithClasses =
                         teachers
-                        .Select(teacher => 
-                            new { 
-                                Person = teacher, 
-                                Classes = teacher.Classes.Split(',') 
+                        .Select(teacher =>
+                            new
+                            {
+                                Person = teacher,
+                                Classes = teacher.Classes.Split(',')
                             });
 
                     var studentsWithClasses =
@@ -39,14 +42,33 @@ namespace SchoolManager
                             });
 
                     var a = teachersWithClasses
-                        .Select(teacherWithClasses => 
-                            new { 
-                                Teacher = teacherWithClasses.Person, 
+                        .Select(teacherWithClasses =>
+                            new
+                            {
+                                Teacher = teacherWithClasses.Person,
                                 Students = studentsWithClasses
-                                    .Where(studentWithClasses => studentWithClasses.Classes.Any(teacherWithClasses.Classes.Contains)).ToList() 
+                                    .Where(studentWithClasses => studentWithClasses.Classes.Any(teacherWithClasses.Classes.Contains)).ToList()
                             }).ToList();
-                    Console.Write(a);
+
+                    var dt = new DataTable();
+
+                    for (int ii = 0; ii < a.Count; ii++)
+                    {
+                        var teacherWithStudents = a[ii];
+                        dt.Columns.Add(teacherWithStudents.Teacher.Fullname);
+                        for (int jj = 0; jj < teacherWithStudents.Students.Count; jj++)
+                        {
+                            dt.Rows.Add();
+                            dt.Rows[jj][ii] = teacherWithStudents.Students[jj].Person.Fullname;
+                        }
+                    }
+
+                    Console.Write(dt);
+
                 }).Wait();
+
+
+
         }
     }
 }

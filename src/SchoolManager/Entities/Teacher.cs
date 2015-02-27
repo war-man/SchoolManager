@@ -8,5 +8,9 @@ namespace SchoolManager.Entities
 {
     class Teacher : Person
     {
+        public override string ToString()
+        {
+            return "Professor: " + this.Fullname;
+        }
     }
 }
