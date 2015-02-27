@@ -61,7 +61,9 @@
   <ItemGroup>
     <Compile Include="Infrastructure\PersonJsonConverter.cs" />
     <Compile Include="Services\Data\DataTableBuilder.cs" />
+    <Compile Include="Services\Data\ExcelPackageCreator.cs" />
     <Compile Include="Services\Data\IDataTableBuilder.cs" />
+    <Compile Include="Services\Data\IExcelPackageCreator.cs" />
     <Compile Include="Services\Download\ISchoolDownloader.cs" />
     <Compile Include="Services\Download\SchoolDownloader.cs" />
     <Compile Include="Entities\Person.cs" />

@@ -16,6 +16,7 @@ namespace SchoolManager
             Injector.SetupContainer();
             var schoolDownloader = Injector.Container.GetInstance<ISchoolDownloader>();
             var dataTableBuilder = Injector.Container.GetInstance<IDataTableBuilder>();
+            var excelPackageCreator = Injector.Container.GetInstance<IExcelPackageCreator>();
 
             Task.Run(async () =>
                 {
@@ -31,6 +32,8 @@ namespace SchoolManager
                            ).ToList();
 
                     var dt = dataTableBuilder.BuildDataTable(teachersWithStudents);
+
+                    excelPackageCreator.CreateAndSaveExcelPackage(dt);
 
                 }).Wait();
         }

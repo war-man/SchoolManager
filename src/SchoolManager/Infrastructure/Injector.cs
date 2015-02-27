@@ -22,6 +22,7 @@ namespace SchoolManager.Infrastructure
             container.Register<IConfiguration, Configuration>();
             container.Register<ISchoolDownloader, SchoolDownloader>();
             container.Register<IDataTableBuilder, DataTableBuilder>();
+            container.Register<IExcelPackageCreator, ExcelPackageCreator>();
 
             Container = container;
         }
